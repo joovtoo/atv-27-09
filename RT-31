@@ -1,0 +1,26 @@
+enable
+configure terminal
+hostname RT-31
+banner motd "ACESSO APENAS PARA PESSOAS AUTORIZADAS"
+enable secret SenhadaEnable
+security passwords min-length 8
+login block-for 180 attempts 7 within 60
+username administrador privilege 15 secret SenhaAdmin
+username estagiario privilege 15 secret SenhaEst
+ip domain-name rede3.local
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+login local
+transport input ssh
+exec-timeout 5
+exit
+line console 0
+exec-timeout 5
+login local
+exit
+service password-encryption
+interface gigabitEthernet 0/1
+ip address 172.16.4.1 255.255.254.0
+description REDE1 - 172.16.4.0/23
+no shutdown
+exit
